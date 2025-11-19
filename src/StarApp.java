@@ -100,7 +100,7 @@ public class StarApp {
     }
 
     /**
-     * Animation loop: move gas particles while we’re in “cloud” mode.
+     * Animation loop: move gas particles while on cloud screen
      * deltaTime in secs
      */
     private void startAnimation() {
@@ -108,7 +108,7 @@ public class StarApp {
             if (!buildingStar) {
                 updateGas(deltaTime);
             }
-            // cool star-building animations here too
+            // later, cool star-building animations go here 
         });
     }
 
