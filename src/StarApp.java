@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Deque;
+import java.util.ArrayDeque;
 import java.util.Random;
 
 import edu.macalester.graphics.*;
@@ -31,6 +33,9 @@ public class StarApp {
     // state
     private boolean buildingStar = false;
     private final Random rand = new Random();
+
+    // action stack
+    private Deque<String> actionStack = new ArrayDeque(); // tracks previous actions, so it can be undone later
 
     public StarApp() {
         canvas = new CanvasWindow("More Stars!", WIDTH, HEIGHT);
@@ -155,6 +160,7 @@ public class StarApp {
         uiGroup.add(instructions);
 
         //Add back button
+        // stack of events completed that can then be pulled from?
         //Stubs for now 
         }
 
