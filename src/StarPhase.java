@@ -1,3 +1,5 @@
+import com.apple.laf.resources.aqua_de;
+
 public class StarPhase {
 
     public String phaseName = new String();

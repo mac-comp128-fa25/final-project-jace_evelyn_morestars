@@ -1,11 +1,13 @@
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Deque;
+import java.awt.Paint;
 import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Random;
-
-import edu.macalester.graphics.*;
+import edu.macalester.graphics.CanvasWindow;
+import edu.macalester.graphics.Ellipse;
+import edu.macalester.graphics.FontStyle;
+import edu.macalester.graphics.GraphicsGroup;
+import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.ui.Button;
 import edu.macalester.graphics.ui.TextField;
 
@@ -18,8 +20,7 @@ public class StarApp {
     private CanvasWindow canvas;
 
     // Background “gas cloud”
-    private GraphicsGroup gasGroup;
-    private List<GasParticle> particles;
+    private BackgroundAnimate bgAnimate;
 
     // UI layer
     private GraphicsGroup uiGroup;
@@ -41,49 +42,25 @@ public class StarApp {
         canvas = new CanvasWindow("More Stars!", WIDTH, HEIGHT);
         canvas.setBackground(new Color(5, 5, 20)); 
 
-        gasGroup = new GraphicsGroup();
-        uiGroup = new GraphicsGroup();
-        particles = new ArrayList<>();
+        // background animator
+        bgAnimate = new BackgroundAnimate();
+        canvas.add(bgAnimate.getGroup());
 
-        canvas.add(gasGroup);
+        // UI layer
+        uiGroup = new GraphicsGroup();
         canvas.add(uiGroup);
 
-        setupGasCloud();
         setupUI();
-        startAnimation();
+
+        // new animator loop
+        canvas.animate(dt -> {
+            if (!buildingStar) {
+                bgAnimate.update(dt);
+            }
+        });
     }
 
-    /**
-     * Creates a cold gas & dust cloud drifting around
-     */
-    private void setupGasCloud() {
-        for (int i = 0; i < NUM_PARTICLES; i++) {
-            double size = 6 + rand.nextDouble() * 18;      // 2–24 px
-            double x = rand.nextDouble() * WIDTH;
-            double y = rand.nextDouble() * HEIGHT;
 
-            Ellipse blob = new Ellipse(x, y, size, size);
-
-            // colors low alpha 
-            Color c = new Color(
-                28 + rand.nextInt(48),     // 28–75
-                50 + rand.nextInt(80),     // 50–129
-                130 + rand.nextInt(120),   // 130–249
-                80 + rand.nextInt(120));   // alpha 80–199
-
-            blob.setFillColor(c);
-            blob.setStroked(false);
-
-            // slow random drift, “cold” gas = not fast
-            double speed = 15 + rand.nextDouble() * 25; // px per second
-            double angle = rand.nextDouble() * 2 * Math.PI;
-            double vx = Math.cos(angle) * speed;
-            double vy = Math.sin(angle) * speed;
-
-            particles.add(new GasParticle(blob, vx, vy));
-            gasGroup.add(blob);
-        }
-    }
 
     /**
      * Sets up UI: title text + Start button.
@@ -95,43 +72,11 @@ public class StarApp {
         title.setPosition(20, 40);
         uiGroup.add(title);
 
-        //TODO: Collapse the dust cloud
-
         startButton = new Button("Start Star Formation");
         // place it near the bottom middle
         startButton.setPosition(WIDTH / 2.0 - 80, HEIGHT - 70);
         startButton.onClick(this::switchToBuilderMode);
         uiGroup.add(startButton);
-    }
-
-    /**
-     * Animation loop: move gas particles while on cloud screen
-     * deltaTime in secs
-     */
-    private void startAnimation() {
-        canvas.animate(deltaTime -> {
-            if (!buildingStar) {
-                updateGas(deltaTime);
-            }
-            // later, cool star-building animations go here 
-        });
-    }
-
-    private void updateGas(double dt) {
-        for (GasParticle p : particles) {
-            p.shape.moveBy(p.vx * dt, p.vy * dt);
-
-            double x = p.shape.getX();
-            double y = p.shape.getY();
-            double w = p.shape.getWidth();
-            double h = p.shape.getHeight();
-
-            // Wrap around edges to keep the cloud continuous
-            if (x > WIDTH)  p.shape.setX(-w);
-            if (x + w < 0)  p.shape.setX(WIDTH);
-            if (y > HEIGHT) p.shape.setY(-h);
-            if (y + h < 0)  p.shape.setY(HEIGHT);
-        }
     }
 
     /**
@@ -141,8 +86,23 @@ public class StarApp {
     private void switchToBuilderMode() {
         buildingStar = true;
 
-        gasGroup.removeAll();
+        canvas.remove(bgAnimate.getGroup());   // removes cloud
         uiGroup.removeAll();
+
+        GraphicsGroup protostar = new GraphicsGroup();
+        Ellipse core = new Ellipse(280, 280, 40, 40);
+        core.setFillColor(new Color(255, 200, 80)); // warm yellow glow
+        core.setStroked(false);
+
+        GraphicsText label = new GraphicsText("Protostar");
+        label.setFillColor(Color.WHITE);
+        label.setFont(FontStyle.BOLD, 18);
+        label.setCenter(300, 350);
+
+        protostar.add(core);
+        protostar.add(label);
+
+        canvas.add(protostar);
 
         GraphicsText title = new GraphicsText("Star Builder");
         title.setFont(FontStyle.BOLD, 26);
@@ -160,24 +120,9 @@ public class StarApp {
         uiGroup.add(instructions);
 
         //Add back button
-        // stack of events completed that can then be pulled from?
+        
         //Stubs for now 
         }
-
-    /**
-     * Helper class for the gas cloud.
-     */
-    private static class GasParticle {
-        final Ellipse shape;
-        final double vx;
-        final double vy;
-
-        GasParticle(Ellipse shape, double vx, double vy) {
-            this.shape = shape;
-            this.vx = vx;
-            this.vy = vy;
-        }
-    }
 
     public static void main(String[] args) {
         new StarApp();
