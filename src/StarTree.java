@@ -18,7 +18,7 @@ public class StarTree<StarPhase> {
     }
 
     public void setParent(StarTree<StarPhase> parent){
-
+        
     }
 
     public StarPhase getParent(){

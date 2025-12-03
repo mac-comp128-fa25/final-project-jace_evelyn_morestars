@@ -1,4 +1,3 @@
-import com.apple.laf.resources.aqua_de;
 
 public class StarPhase {
 
@@ -18,6 +17,11 @@ public class StarPhase {
         this.solarMassMin = solarMassMin;
         this.solarMassMax = solarMassMax;
         this.luminosity = luminosity;
+    }
+
+    public String getStarInfo(){
+        return "This is a " + phaseName + "star!\nTemperature: "
+            + temperature + "\nLuminosity: " + luminosity;
     }
 
 }
