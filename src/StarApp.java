@@ -25,6 +25,8 @@ public class StarApp {
     // UI layer
     private GraphicsGroup uiGroup;
     private Button startButton;
+    private Button nextButton;
+    private Button backButton;
 
     //unused rn
     private Button addTemplateButton;
@@ -119,7 +121,15 @@ public class StarApp {
         instructions.setWrappingWidth(560);
         uiGroup.add(instructions);
 
-        //Add back button
+        nextButton = new Button("Next Phase");
+        nextButton.setPosition(WIDTH / 2.0 - 80, HEIGHT - 70);
+        // nextButton.onClick(go to next phase, add current phase to action stack)
+        uiGroup.add(nextButton);
+
+        backButton = new Button("Previous Phase");
+        backButton.setPosition(WIDTH / 2.0 - 80, HEIGHT - 90);
+        // backButton.onClick(go to previous phase, pop from action stack)
+        uiGroup.add(backButton);
         
         //Stubs for now 
         }
