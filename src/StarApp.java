@@ -29,9 +29,7 @@ public class StarApp {
     private Button backButton;
 
     //unused rn
-    private Button addTemplateButton;
-    private TextField templateNameField;
-    private GraphicsText matchLabel;
+    private TextField inputBox;
 
     // state
     private boolean buildingStar = false;
@@ -62,8 +60,6 @@ public class StarApp {
         });
     }
 
-
-
     /**
      * Sets up UI: title text + Start button.
      */
@@ -79,6 +75,16 @@ public class StarApp {
         startButton.setPosition(WIDTH / 2.0 - 80, HEIGHT - 70);
         startButton.onClick(this::switchToBuilderMode);
         uiGroup.add(startButton);
+
+        nextButton = new Button("Next Phase");
+        nextButton.setPosition(WIDTH / 2.0 - 60, HEIGHT - 100);
+        // nextButton.onClick(go to next phase, add current phase to action stack)
+        uiGroup.add(nextButton);
+
+        backButton = new Button("Previous Phase");
+        backButton.setPosition(WIDTH / 2.0 - 70, HEIGHT - 70);
+        // backButton.onClick(go to previous phase, pop from action stack)
+        uiGroup.add(backButton);
     }
 
     /**
@@ -113,26 +119,20 @@ public class StarApp {
         uiGroup.add(title);
 
         GraphicsText instructions = new GraphicsText(
-                "text\n" +
-                "testing.");
+                "Please enter a mass\n" +
+                "between 0 and 300.");
         instructions.setFont(FontStyle.PLAIN, 16);
         instructions.setFillColor(new Color(220, 220, 240));
         instructions.setPosition(20, 90);
         instructions.setWrappingWidth(560);
         uiGroup.add(instructions);
 
-        nextButton = new Button("Next Phase");
-        nextButton.setPosition(WIDTH / 2.0 - 80, HEIGHT - 70);
-        // nextButton.onClick(go to next phase, add current phase to action stack)
-        uiGroup.add(nextButton);
+        inputBox = new TextField();
+        inputBox.setPosition(WIDTH/2.0, HEIGHT - 120);
+        uiGroup.add(inputBox);
 
-        backButton = new Button("Previous Phase");
-        backButton.setPosition(WIDTH / 2.0 - 80, HEIGHT - 90);
-        // backButton.onClick(go to previous phase, pop from action stack)
-        uiGroup.add(backButton);
-        
         //Stubs for now 
-        }
+    }
 
     public static void main(String[] args) {
         new StarApp();
