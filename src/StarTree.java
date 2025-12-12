@@ -3,25 +3,39 @@ import java.util.ArrayList;
 
 public class StarTree<StarPhase> {
     
-    private List<StarTree<StarPhase>> children = new ArrayList<>();
-    private StarPhase parent;
-    private StarPhase phaseInfo;
+    private StarPhase phase;
 
-
-    public StarTree(StarPhase phaseInfo){
-        this.phaseInfo = phaseInfo;
+    /**
+     * Constructs an empty StarTree
+     */
+    public StarTree(){
+        phase = null;
     }
 
-    public void addPhase(StarTree<StarPhase> newPhase){
-        newPhase.setParent(this);
-        children.add(newPhase);
+    /**
+     * Constructs a StarTree with a specified root
+     * @param phaseInfo
+     */
+    protected StarTree(StarPhase phase){
+        this.phase = phase;
     }
 
-    public void setParent(StarTree<StarPhase> parent){
-        
+    /*Constructs a new StarTree
+     */
+    public StarTree(StarInfo data, StarTree<StarPhase> leftTree, StarTree<StarPhase> rightTree){
+        StarPhase phase = new StarPhase(data);
+
+        phase.left = leftTree.phase;
+        leftTree.phase.parent = phase;
+        phase.right = rightTree.phase;
+        rightTree.phase.parent = phase;
     }
 
-    public StarPhase getParent(){
-        return parent;
-    }
+    // public StarInfo getStarInfo(){
+    //     if (phase != null){
+    //         return phase.data;
+    //     } else {
+    //         return null;
+    //     }
+    // }
 }

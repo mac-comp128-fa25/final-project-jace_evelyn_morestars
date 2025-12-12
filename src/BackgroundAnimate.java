@@ -21,9 +21,8 @@ public class BackgroundAnimate {
     private static final double CENTER_X = 300;
     private static final double CENTER_Y = 300;
 
-
+    //gas cloud
     private final Random rand = new Random();
-
     private GraphicsGroup gasGroup;
     private List<GasParticle> particles;
 
