@@ -114,7 +114,7 @@ public class StarApp {
 
         GraphicsText instructions = new GraphicsText(
                 "Please enter a mass\n" +
-                "between 0 and 300.");
+                "between 0 and 100.");
         instructions.setFont(FontStyle.PLAIN, 16);
         instructions.setFillColor(new Color(220, 220, 240));
         instructions.setPosition(20, 90);
@@ -136,21 +136,28 @@ public class StarApp {
     private StarTree<StarInfo> buildEvolutionTree(){ 
        
         //star phases
-        StarInfo protostar1 = new StarInfo("Protostar", 0, 300);
-        StarInfo lowMassStar = new StarInfo("Low Mass Star", 0, 8);
+        StarInfo protostar1 = new StarInfo("Protostar", 0, 100);
+        StarInfo lowMassStar = new StarInfo("Low Mass Star", 0, 12);
         StarInfo whiteDwarf1 = new StarInfo("White Dwarf Star", 0, 1);
         StarInfo blackDwarf1 = new StarInfo("Black Dwarf Star", 0, 1);
-        StarInfo subgiantStar = new StarInfo("Subgiant Star", 2, 12);
-        StarInfo degenerateStar = new StarInfo("Degenerate Core Star", 2, 3);
-        StarInfo redGiant = new StarInfo("Red Giant Star", 3, 12);
+        StarInfo subgiantStar = new StarInfo("Subgiant Star", 1, 12);
+        StarInfo degenerateStar = new StarInfo("Degenerate Core Star", 1, 2);
+        StarInfo redGiant = new StarInfo("Red Giant Star", 2, 12);
         StarInfo planetaryNebula1 = new StarInfo("Planetary Nebula", 2, 3);
-        StarInfo whiteDwarf2 = new StarInfo("White Dwarf Star", 2, 3);
-        StarInfo blackDwarf2 = new StarInfo("Black Dwarf Star", 2, 3);
+        StarInfo whiteDwarf2 = new StarInfo("White Dwarf Star (final phase)", 1, 2);
+        StarInfo blackDwarf2 = new StarInfo("Black Dwarf Star (final phase)", 1, 2);
         StarInfo planetaryNebula2 = new StarInfo("Planetary Nebula", 3, 12);
-        StarInfo whiteDwarf3 = new StarInfo("White Dwarf Star", 3, 12);
-        StarInfo blackDwarf3 = new StarInfo("Black Dwarf Star", 3, 12);
+        StarInfo whiteDwarf3 = new StarInfo("White Dwarf Star (final phase)", 2, 12);
+        StarInfo blackDwarf3 = new StarInfo("Black Dwarf Star (final phase)", 2, 12);
 
-        StarInfo highMassStar = new StarInfo("High Mass Star", 9, 300);
+        StarInfo highMassStar = new StarInfo("High Mass Star", 12, 100);
+        StarInfo redSupergiant = new StarInfo("Red Supergiant Star", 12, 40);
+        StarInfo blueSupergiant = new StarInfo("Blue Supergiant Star", 40, 100);
+        StarInfo superNova1 = new StarInfo("Supernova", 12, 40);
+        StarInfo neutronStar = new StarInfo("Neutron Star (final phase)", 12, 25);
+        StarInfo blackHole1 = new StarInfo("Black Hole (final phase)", 25, 40);
+        StarInfo superNova2 = new StarInfo("Supernova", 40, 100);
+        StarInfo blackHole2 = new StarInfo("Black Hole (final phase)", 40, 100);
 
         StarTree<StarInfo> starTree = new StarTree<StarInfo>(protostar1, 
             new StarTree<StarInfo>(lowMassStar, 
@@ -172,7 +179,15 @@ public class StarApp {
                                 null),
                             null),
                         null))),
-            new StarTree<StarInfo>(highMassStar, null, null)
+            new StarTree<StarInfo>(highMassStar, 
+                new StarTree<StarInfo> (redSupergiant, 
+                    new StarTree<StarInfo> (superNova1, 
+                        new StarTree<StarInfo> (neutronStar, null, null), 
+                        new StarTree <StarInfo> (blackHole1, null, null)), 
+                    null), 
+                new StarTree<StarInfo> (blueSupergiant, 
+                    new StarTree<StarInfo> (superNova2, 
+                        new StarTree<StarInfo> (blackHole2, null, null), null), null))
         );
 
         return starTree;
