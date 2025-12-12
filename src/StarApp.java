@@ -30,7 +30,7 @@ public class StarApp {
     private TextField inputBox;
 
     //evolution tree
-    private StarTree evolutionTree;
+    private StarTree<StarInfo> evolutionTree;
 
     // state
     private boolean buildingStar = false;
@@ -139,7 +139,7 @@ public class StarApp {
 
     /* Builds evolution tree with star phase information
      */
-    private StarTree buildEvolutionTree(){ 
+    private StarTree<StarInfo> buildEvolutionTree(){ 
        
         //star phases
         StarInfo gasCloud = new StarInfo("Gas Cloud", 0, 1000); //TODO: find bounds of mass
@@ -170,7 +170,13 @@ public class StarApp {
                                 null),
                             null),
                         null),
-                    new StarTree<StarInfo> (redGiant, null, null))),
+                    new StarTree<StarInfo> (redGiant, 
+                        new StarTree<StarInfo> (planetaryNebula2, 
+                            new StarTree<StarInfo> (whiteDwarf3, 
+                                new StarTree<StarInfo> (blackDwarf3, null, null),
+                                null),
+                            null),
+                        null))),
             new StarTree<StarInfo>(highMassStar, null, null)
         );
 
