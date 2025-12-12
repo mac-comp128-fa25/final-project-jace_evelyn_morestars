@@ -27,9 +27,10 @@ public class StarApp {
     private Button startButton;
     private Button nextButton;
     private Button backButton;
-
-    //unused rn
     private TextField inputBox;
+
+    //evolution tree
+    private StarTree<StarPhase> evolutionTree;
 
     // state
     private boolean buildingStar = false;
@@ -40,7 +41,7 @@ public class StarApp {
 
     public StarApp() {
         canvas = new CanvasWindow("More Stars!", WIDTH, HEIGHT);
-        canvas.setBackground(new Color(5, 5, 20)); 
+        canvas.setBackground(new Color(5, 5, 20));
 
         // background animator
         bgAnimate = new BackgroundAnimate();
@@ -71,19 +72,21 @@ public class StarApp {
         uiGroup.add(title);
 
         startButton = new Button("Start Star Formation");
-        // place it near the bottom middle
         startButton.setPosition(WIDTH / 2.0 - 80, HEIGHT - 70);
         startButton.onClick(this::switchToBuilderMode);
         uiGroup.add(startButton);
 
         nextButton = new Button("Next Phase");
         nextButton.setPosition(WIDTH / 2.0 - 60, HEIGHT - 100);
-        // nextButton.onClick(go to next phase, add current phase to action stack)
+        // nextButton.onClick((event) -> {
+            // go to next
+            // push new phase to action stack
+        // });
         uiGroup.add(nextButton);
 
         backButton = new Button("Previous Phase");
         backButton.setPosition(WIDTH / 2.0 - 70, HEIGHT - 70);
-        // backButton.onClick(go to previous phase, pop from action stack)
+        // backButton.onClick(pop from top of action stack, display it);
         uiGroup.add(backButton);
     }
 
@@ -128,11 +131,20 @@ public class StarApp {
         uiGroup.add(instructions);
 
         inputBox = new TextField();
-        inputBox.setPosition(WIDTH/2.0, HEIGHT - 120);
+        inputBox.setPosition(WIDTH/2.0 - 50, HEIGHT - 120);
         uiGroup.add(inputBox);
-
-        //Stubs for now 
     }
+
+    /* Builds evolution tree with star phase information
+     */
+    private StarTree buildEvolutionTree(){ 
+        
+        StarTree starTree = new StarTree();
+        StarPhase gasCloud = (null);
+
+        
+        return starTree;
+    } 
 
     public static void main(String[] args) {
         new StarApp();
