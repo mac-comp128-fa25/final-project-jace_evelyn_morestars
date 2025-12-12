@@ -153,19 +153,27 @@ public class StarApp {
         StarInfo planetaryNebula1 = new StarInfo("Planetary Nebula", 2, 3);
         StarInfo whiteDwarf2 = new StarInfo("White Dwarf Star", 2, 3);
         StarInfo blackDwarf2 = new StarInfo("Black Dwarf", 2, 3);
+        StarInfo planetaryNebula2 = new StarInfo("Planetary Nebula", 3, 12);
+        StarInfo whiteDwarf3 = new StarInfo("White Dwarf", 3, 12);
+        StarInfo blackDwarf3 = new StarInfo("Black Dwarf", 3, 12);
 
         StarTree<StarInfo> starTree = new StarTree<StarInfo>(gasCloud, 
-            new StarTree(lowMassStar, 
-                new StarTree(whiteDwarf1, 
-                    new StarTree(blackDwarf1, null, null),
+            new StarTree<StarInfo>(lowMassStar, 
+                new StarTree<StarInfo> (whiteDwarf1, 
+                    new StarTree<StarInfo> (blackDwarf1, null, null),
                     null),
-                new StarTree(subgiantStar, 
-                    new StarTree (degenerateStar, null,null),
-                    new StarTree (redGiant, null, null))),
-            new StarTree(highMassStar, null, null)
+                new StarTree<StarInfo> (subgiantStar, 
+                    new StarTree<StarInfo> (degenerateStar, 
+                        new StarTree<StarInfo> (planetaryNebula1, 
+                            new StarTree<StarInfo> (whiteDwarf2, 
+                                new StarTree<StarInfo> (blackDwarf2, null, null), 
+                                null),
+                            null),
+                        null),
+                    new StarTree<StarInfo> (redGiant, null, null))),
+            new StarTree<StarInfo>(highMassStar, null, null)
         );
 
-        
         return starTree;
     } 
 

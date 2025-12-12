@@ -31,7 +31,7 @@ public class StarTree<StarPhase> {
 
     /*Constructs a new StarTree
      */
-    public StarTree(StarInfo data, StarTree<StarPhase> leftTree, StarTree<StarPhase> rightTree){
+    public StarTree(StarInfo data, StarTree<StarInfo> leftTree, StarTree<StarInfo> rightTree){
         phase = new StarPhase(data);
 
         if (leftTree != null){
