@@ -24,13 +24,16 @@ public class StarApp {
     // UI layer
     private GraphicsGroup uiGroup;
     private Button startButton;
+    private Button enterButton;
     private Button nextButton;
-    private Button backButton;
     private TextField inputBox;
 
     //evolution tree
     private StarTree<StarInfo> evolutionTree;
+    private String phaseInfo;
+    private StarTree<StarInfo> currPhase;
     private int mass;
+ 
 
     // state
     private boolean buildingStar = false;
@@ -86,15 +89,17 @@ public class StarApp {
         canvas.remove(bgAnimate.getGroup());   // removes cloud
         uiGroup.removeAll();
 
+        phaseInfo = evolutionTree.phase.getStarInfo();
+
         GraphicsGroup protostar = new GraphicsGroup();
         Ellipse core = new Ellipse(280, 280, 40, 40);
         core.setFillColor(new Color(255, 200, 80)); // warm yellow glow
         core.setStroked(false);
 
-        GraphicsText label = new GraphicsText("Protostar");
+        GraphicsText label = new GraphicsText(phaseInfo);
         label.setFillColor(Color.WHITE);
         label.setFont(FontStyle.BOLD, 18);
-        label.setCenter(300, 350);
+        label.setCenter(300, 370);
 
         protostar.add(core);
         protostar.add(label);
@@ -117,13 +122,13 @@ public class StarApp {
         uiGroup.add(instructions);
 
         inputBox = new TextField();
-        inputBox.setPosition(WIDTH/2.0 - 45, HEIGHT - 120);
+        inputBox.setPosition(WIDTH/2.0 - 55, HEIGHT - 125);
         uiGroup.add(inputBox);
 
-        nextButton = new Button("Next Phase");
-        nextButton.setPosition(WIDTH / 2.0 - 60, HEIGHT - 100);
-        // nextButton.onClick(get next phase, push phase to action stack);
-        uiGroup.add(nextButton);
+        enterButton = new Button("Enter");
+        enterButton.setPosition(WIDTH / 2.0 - 35, HEIGHT - 100);
+        mass = Integer.parseInt(inputBox.getText()); // TODO: make this happen on enter hit
+        uiGroup.add(enterButton);
     }
 
     /* Builds evolution tree with star phase information
@@ -134,16 +139,16 @@ public class StarApp {
         StarInfo protostar1 = new StarInfo("Protostar", 0, 300);
         StarInfo lowMassStar = new StarInfo("Low Mass Star", 0, 8);
         StarInfo whiteDwarf1 = new StarInfo("White Dwarf Star", 0, 1);
-        StarInfo blackDwarf1 = new StarInfo("Black Dwarf", 0, 1);
+        StarInfo blackDwarf1 = new StarInfo("Black Dwarf Star", 0, 1);
         StarInfo subgiantStar = new StarInfo("Subgiant Star", 2, 12);
         StarInfo degenerateStar = new StarInfo("Degenerate Core Star", 2, 3);
-        StarInfo redGiant = new StarInfo("Red Giant", 3, 12);
+        StarInfo redGiant = new StarInfo("Red Giant Star", 3, 12);
         StarInfo planetaryNebula1 = new StarInfo("Planetary Nebula", 2, 3);
         StarInfo whiteDwarf2 = new StarInfo("White Dwarf Star", 2, 3);
-        StarInfo blackDwarf2 = new StarInfo("Black Dwarf", 2, 3);
+        StarInfo blackDwarf2 = new StarInfo("Black Dwarf Star", 2, 3);
         StarInfo planetaryNebula2 = new StarInfo("Planetary Nebula", 3, 12);
-        StarInfo whiteDwarf3 = new StarInfo("White Dwarf", 3, 12);
-        StarInfo blackDwarf3 = new StarInfo("Black Dwarf", 3, 12);
+        StarInfo whiteDwarf3 = new StarInfo("White Dwarf Star", 3, 12);
+        StarInfo blackDwarf3 = new StarInfo("Black Dwarf Star", 3, 12);
 
         StarInfo highMassStar = new StarInfo("High Mass Star", 9, 300);
 

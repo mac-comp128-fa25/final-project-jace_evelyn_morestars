@@ -13,7 +13,7 @@ public class StarInfo {
     }
 
     public String getStarInfo(){
-        return "This is a " + phaseName + " star!";
+        return "This is a " + phaseName + "!";
     }
 
 }

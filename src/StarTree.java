@@ -1,8 +1,8 @@
 public class StarTree<StarPhase> {
     
-    private StarPhase phase;
+    public StarPhase phase;
 
-    protected static class StarPhase {
+    public static class StarPhase {
 
         public StarInfo data;
 
