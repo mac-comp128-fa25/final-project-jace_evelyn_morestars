@@ -30,7 +30,7 @@ public class StarApp {
     private TextField inputBox;
 
     //evolution tree
-    private StarTree<StarPhase> evolutionTree;
+    private StarTree evolutionTree;
 
     // state
     private boolean buildingStar = false;
@@ -42,6 +42,8 @@ public class StarApp {
     public StarApp() {
         canvas = new CanvasWindow("More Stars!", WIDTH, HEIGHT);
         canvas.setBackground(new Color(5, 5, 20));
+
+        evolutionTree = buildEvolutionTree();
 
         // background animator
         bgAnimate = new BackgroundAnimate();
@@ -138,9 +140,30 @@ public class StarApp {
     /* Builds evolution tree with star phase information
      */
     private StarTree buildEvolutionTree(){ 
-        
-        StarTree starTree = new StarTree();
-        StarPhase gasCloud = (null);
+       
+        //star phases
+        StarInfo gasCloud = new StarInfo("Gas Cloud", 0, 1000); //TODO: find bounds of mass
+        StarInfo lowMassStar = new StarInfo("Low Mass Star", 0, 8);
+        StarInfo highMassStar = new StarInfo("High Mass Star", 9, 1000);
+        StarInfo whiteDwarf1 = new StarInfo("White Dwarf Star", 0, 1);
+        StarInfo blackDwarf1 = new StarInfo("Black Dwarf", 0, 1);
+        StarInfo subgiantStar = new StarInfo("Subgiant Star", 2, 12);
+        StarInfo degenerateStar = new StarInfo("Degenerate Core Star", 2, 3);
+        StarInfo redGiant = new StarInfo("Red Giant", 3, 12);
+        StarInfo planetaryNebula1 = new StarInfo("Planetary Nebula", 2, 3);
+        StarInfo whiteDwarf2 = new StarInfo("White Dwarf Star", 2, 3);
+        StarInfo blackDwarf2 = new StarInfo("Black Dwarf", 2, 3);
+
+        StarTree<StarInfo> starTree = new StarTree<StarInfo>(gasCloud, 
+            new StarTree(lowMassStar, 
+                new StarTree(whiteDwarf1, 
+                    new StarTree(blackDwarf1, null, null),
+                    null),
+                new StarTree(subgiantStar, 
+                    new StarTree (degenerateStar, null,null),
+                    new StarTree (redGiant, null, null))),
+            new StarTree(highMassStar, null, null)
+        );
 
         
         return starTree;
