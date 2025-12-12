@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Paint;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Random;
@@ -31,13 +30,11 @@ public class StarApp {
 
     //evolution tree
     private StarTree<StarInfo> evolutionTree;
+    private int mass;
 
     // state
     private boolean buildingStar = false;
     private final Random rand = new Random();
-
-    // action stack
-    private Deque<String> actionStack = new ArrayDeque(); // tracks previous actions, so it can be undone later
 
     public StarApp() {
         canvas = new CanvasWindow("More Stars!", WIDTH, HEIGHT);
@@ -67,7 +64,7 @@ public class StarApp {
      * Sets up UI: title text + Start button.
      */
     private void setupUI() {
-        GraphicsText title = new GraphicsText("Cold gas & dust cloud");
+        GraphicsText title = new GraphicsText("Cold Gas & Dust Cloud");
         title.setFont(FontStyle.BOLD, 24);
         title.setFillColor(Color.WHITE);
         title.setPosition(20, 40);
@@ -77,19 +74,6 @@ public class StarApp {
         startButton.setPosition(WIDTH / 2.0 - 80, HEIGHT - 70);
         startButton.onClick(this::switchToBuilderMode);
         uiGroup.add(startButton);
-
-        nextButton = new Button("Next Phase");
-        nextButton.setPosition(WIDTH / 2.0 - 60, HEIGHT - 100);
-        // nextButton.onClick((event) -> {
-            // go to next
-            // push new phase to action stack
-        // });
-        uiGroup.add(nextButton);
-
-        backButton = new Button("Previous Phase");
-        backButton.setPosition(WIDTH / 2.0 - 70, HEIGHT - 70);
-        // backButton.onClick(pop from top of action stack, display it);
-        uiGroup.add(backButton);
     }
 
     /**
@@ -133,8 +117,13 @@ public class StarApp {
         uiGroup.add(instructions);
 
         inputBox = new TextField();
-        inputBox.setPosition(WIDTH/2.0 - 50, HEIGHT - 120);
+        inputBox.setPosition(WIDTH/2.0 - 45, HEIGHT - 120);
         uiGroup.add(inputBox);
+
+        nextButton = new Button("Next Phase");
+        nextButton.setPosition(WIDTH / 2.0 - 60, HEIGHT - 100);
+        // nextButton.onClick(get next phase, push phase to action stack);
+        uiGroup.add(nextButton);
     }
 
     /* Builds evolution tree with star phase information
@@ -142,9 +131,8 @@ public class StarApp {
     private StarTree<StarInfo> buildEvolutionTree(){ 
        
         //star phases
-        StarInfo gasCloud = new StarInfo("Gas Cloud", 0, 1000); //TODO: find bounds of mass
+        StarInfo protostar1 = new StarInfo("Protostar", 0, 300);
         StarInfo lowMassStar = new StarInfo("Low Mass Star", 0, 8);
-        StarInfo highMassStar = new StarInfo("High Mass Star", 9, 1000);
         StarInfo whiteDwarf1 = new StarInfo("White Dwarf Star", 0, 1);
         StarInfo blackDwarf1 = new StarInfo("Black Dwarf", 0, 1);
         StarInfo subgiantStar = new StarInfo("Subgiant Star", 2, 12);
@@ -157,7 +145,9 @@ public class StarApp {
         StarInfo whiteDwarf3 = new StarInfo("White Dwarf", 3, 12);
         StarInfo blackDwarf3 = new StarInfo("Black Dwarf", 3, 12);
 
-        StarTree<StarInfo> starTree = new StarTree<StarInfo>(gasCloud, 
+        StarInfo highMassStar = new StarInfo("High Mass Star", 9, 300);
+
+        StarTree<StarInfo> starTree = new StarTree<StarInfo>(protostar1, 
             new StarTree<StarInfo>(lowMassStar, 
                 new StarTree<StarInfo> (whiteDwarf1, 
                     new StarTree<StarInfo> (blackDwarf1, null, null),
