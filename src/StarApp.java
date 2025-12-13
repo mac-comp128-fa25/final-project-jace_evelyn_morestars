@@ -1,5 +1,5 @@
 import java.awt.Color;
-import java.util.Random;
+
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.Ellipse;
 import edu.macalester.graphics.FontStyle;
@@ -14,11 +14,12 @@ public class StarApp {
     private static final int HEIGHT = 600;
 
     private CanvasWindow canvas;
+    private BackgroundAnimate bgAnimate;
     private GraphicsGroup uiGroup;
 
-    private Button startButton;
-    private Button enterButton;
     private TextField inputBox;
+    private Button enterButton;
+    private Button startButton;
 
     private StarTree evolutionTree;
     private StarTree.StarPhase currentPhase;
@@ -29,6 +30,9 @@ public class StarApp {
         canvas = new CanvasWindow("Star Evolution", WIDTH, HEIGHT);
         canvas.setBackground(new Color(5, 5, 20));
 
+        bgAnimate = new BackgroundAnimate();
+        canvas.add(bgAnimate.getGroup());
+
         evolutionTree = buildEvolutionTree();
         currentPhase = evolutionTree.phase;
 
@@ -36,6 +40,8 @@ public class StarApp {
         canvas.add(uiGroup);
 
         setupStartUI();
+
+        canvas.animate(dt -> bgAnimate.update(dt));
     }
 
     private void setupStartUI() {
@@ -65,8 +71,7 @@ public class StarApp {
         phaseLabel.setCenter(300, 360);
         canvas.add(phaseLabel);
 
-        GraphicsText instructions = new GraphicsText(
-                "Enter star mass (0–100):");
+        GraphicsText instructions = new GraphicsText("Enter star mass (0–100):");
         instructions.setFillColor(Color.WHITE);
         instructions.setPosition(20, 60);
         uiGroup.add(instructions);
@@ -82,11 +87,10 @@ public class StarApp {
     }
 
     private void handleMassEntry() {
-        String text = inputBox.getText().trim();
-
         int mass;
+
         try {
-            mass = Integer.parseInt(text);
+            mass = Integer.parseInt(inputBox.getText().trim());
         } catch (NumberFormatException e) {
             phaseLabel.setText("Invalid mass.");
             return;
@@ -123,16 +127,20 @@ public class StarApp {
         StarInfo protostar = new StarInfo("Protostar", 0, 100);
         StarInfo lowMass = new StarInfo("Low Mass Star", 0, 12);
         StarInfo highMass = new StarInfo("High Mass Star", 12, 100);
-        StarInfo whiteDwarf = new StarInfo("White Dwarf", 0, 12);
+        StarInfo whiteDwarf = new StarInfo("White Dwarf (Final)", 0, 12);
         StarInfo supernova = new StarInfo("Supernova", 12, 100);
 
-        StarTree lowBranch = new StarTree(lowMass,
+        StarTree lowBranch = new StarTree(
+                lowMass,
                 new StarTree(whiteDwarf, null, null),
-                null);
+                null
+        );
 
-        StarTree highBranch = new StarTree(highMass,
+        StarTree highBranch = new StarTree(
+                highMass,
                 new StarTree(supernova, null, null),
-                null);
+                null
+        );
 
         return new StarTree(protostar, lowBranch, highBranch);
     }
